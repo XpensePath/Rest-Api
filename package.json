@@ -2,10 +2,35 @@
   "name": "xpensepath-restapi",
   "version": "1.0.0",
   "description": "XpensePath Rest Api ",
-  "main": "index.js",
+  "main": "server.ts",
   "scripts": {
+    "lint": "eslint \"**/*.{ts,tsx}\" --fix --max-warnings=0",
+    "format": "prettier . --write",
+    "dev": "nodemon server.ts",
+    "pre-commit": "yarn lint && yarn format && git add -A .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Youssef Donadeo",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^20.8.10",
+    "@typescript-eslint/eslint-plugin": "^6.4.0",
+    "@typescript-eslint/parser": "^6.9.1",
+    "eslint": "^8.0.1",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-config-standard-with-typescript": "^39.1.1",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-n": "^15.0.0 || ^16.0.0 ",
+    "eslint-plugin-prettier": "^5.0.1",
+    "eslint-plugin-promise": "^6.0.0",
+    "husky": "^8.0.3",
+    "nodemon": "^3.0.1",
+    "prettier": "^3.0.3",
+    "ts-node": "^10.9.1",
+    "typescript": "*"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
 }

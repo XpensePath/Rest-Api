@@ -17,7 +17,7 @@ jobs:
         run: |
           # Set the directory path
           directory="./docs"
-          
+
           # Initialize an array
           file_array=(${directory}/*)
           lastIndex=$((${#file_array[@]} - 1))
@@ -50,5 +50,5 @@ jobs:
           propagate_failure: true
           trigger_workflow: true
           wait_workflow: true
-          client_payload:  >
+          client_payload: >
             {"client_payload": "{ 'file-name': 'backend', 'file-list': ${{ steps.vars.outputs.file_list }} }"}

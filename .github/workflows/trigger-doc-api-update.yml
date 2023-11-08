@@ -1,0 +1,56 @@
+name: Trigger Doc Generation
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'docs/openApi/**.json'
+
+jobs:
+  trigger_api_workflow:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set tag var
+        id: vars
+        run: |
+          # Set the directory path
+          directory="./docs/openApi"
+
+          # Initialize an array
+          file_array=(${directory}/*.json)
+          lastIndex=$((${#file_array[@]} - 1))
+          message="["
+          for element in "${!file_array[@]}"; do
+            message+=$(jq --arg key0   'resource' \
+                          --arg value0 $(basename ${file_array[$element]} .json) \
+                          --arg key1   'link' \
+                          --arg value1 "https://raw.githubusercontent.com/XpensePath/Rest-Api/main/docs/openApi/$(basename ${file_array[$element]})" \
+                          '. | .[$key0]=$value0 | .[$key1]=$value1' \
+                          <<<'{}'
+                        )
+            if [ $element -eq $lastIndex ]
+            then
+              message+="'"
+            else
+              message+="','"
+            fi
+          done
+          message+="]"
+          echo "file_list=$message" >> $GITHUB_OUTPUT
+        shell: bash
+      - name: Trigger child repo workflow
+        uses: convictional/trigger-workflow-and-wait@v1.6.1
+        with:
+          owner: XpensePath
+          repo: XpensePath-Documentation
+          github_token: ${{ secrets.AUTH_TOKEN }}
+          workflow_file_name: api-generator.yml
+          ref: main
+          wait_interval: 10
+          propagate_failure: true
+          trigger_workflow: true
+          wait_workflow: true
+          client_payload: >
+            {"client_payload": "{ 'file-name': 'backend', 'file-list': ${{ steps.vars.outputs.file_list }} }"}

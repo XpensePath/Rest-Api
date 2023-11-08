@@ -30,14 +30,13 @@ jobs:
                           '. | .[$key0]=$value0 | .[$key1]=$value1' \
                           <<<'{}'
                         )
-            if [ $element -eq $lastIndex ]
+            if [ $element -lt $lastIndex ]
             then
-              message+="'"
-            else
-              message+="','"
+              message+=","
             fi
           done
           message+="]"
+          message=$(echo $message | tr '"' "\"")
           echo "file_list=$message" >> $GITHUB_OUTPUT
         shell: bash
       - name: Trigger child repo workflow

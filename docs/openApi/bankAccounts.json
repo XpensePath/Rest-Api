@@ -1,6 +1,6 @@
 {
   "openapi": "3.0.0",
-  "info": { "title": "Title of your service", "version": "1.0.0" },
+  "info": { "title": "Your service", "version": "1.0.0" },
   "paths": {
     "/bankAccounts": {
       "get": {

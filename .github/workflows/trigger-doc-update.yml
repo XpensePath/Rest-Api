@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - 'docs/**'
+      - 'docs/**.md'
 
 jobs:
   trigger_workflow:
@@ -19,7 +19,7 @@ jobs:
           directory="./docs"
 
           # Initialize an array
-          file_array=(${directory}/*)
+          file_array=(${directory}/*.md)
           lastIndex=$((${#file_array[@]} - 1))
           message="["
           for element in "${!file_array[@]}"; do

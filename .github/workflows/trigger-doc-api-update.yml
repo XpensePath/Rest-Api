@@ -52,4 +52,4 @@ jobs:
           trigger_workflow: true
           wait_workflow: true
           client_payload: >
-            {"client_payload": "{ 'file-name': 'backend', 'file-list': ${{ steps.vars.outputs.file_list }} }"}
+            {"client_payload": "${{ steps.vars.outputs.file_list }}"}
